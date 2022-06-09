@@ -1,0 +1,9 @@
+﻿@using Microsoft.AspNetCore.Identity
+
+@inject SignInManager<IdentityUser> _signInManager
+@inject UserManager<IdentityUser> _userManager
+
+@if (_signInManager.IsSignedIn(User) && await _userManager.IsInRoleAsync(_userManager.GetUserAsync(User).Result, "admin"))
+{
+    <a class="btn btn-outline-info" data-mdb-ripple-color="dark" asp-controller="Admin" asp-action="AdminPage">Admin</a>
+}

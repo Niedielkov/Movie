@@ -1,0 +1,69 @@
+﻿@model Movies.Models.LoginModel
+
+@{ 
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Login | Movie</title>
+    <link href="~/css/Site.css" rel="stylesheet" />
+    <link href="~/lib/twitter-bootstrap/css/bootstrap.css" rel="stylesheet" />
+</head>
+<body class="d-flex flex-column min-vh-100">
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark border-bottom box-shadow">
+            <div class="container-fluid">
+                <a class="navbar-brand" asp-controller="Home" asp-action="Index">Movie</a>
+            </div>
+        </nav>
+    </header>
+    <section class="vh-100 gradient-custom">
+        <div class="container py-5 h-100">
+            <div class="row d-flex justify-content-center align-items-center h-100">
+                <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+                    <div class="card bg-dark text-white" style="border-radius: 1rem;">
+                        <div class="card-body p-5 text-center">
+                            <div class="mt-md-4 pb-5">
+                                <h2 class="font-weight-bold mb-2">Login</h2>
+                                <p class="text-white-50 mb-5">Please enter your email and password!</p>
+                                <form asp-controller="Account" asp-action="Login">
+                                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                    <div class="form-group">
+                                        <input asp-for="Email" id="email" class="form-control form-control-lg" placeholder="Email" />
+                                        <span asp-validation-for="Email" class="text-danger"></span>
+                                    </div>
+                                    <div class="form-group">
+                                        <input asp-for="Password" id="password" class="form-control form-control-lg mt-4" placeholder="Password" />
+                                        <span asp-validation-for="Password" class="text-danger"></span>
+                                    </div>
+                                    <div class="form-group form-check">
+                                        <label class="form-check-label">
+                                            <input class="form-check-input" asp-for="RememberMe" /> @Html.DisplayNameFor(model => model.RememberMe)
+                                        </label>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="submit" value="Login" class="btn btn-outline-light btn-lg px-5 mt-5" />
+                                    </div>
+                                    <div>
+                                        <p class="mb-0">Don't have an account? <a class="text-white-50 font-weight-bold" asp-controller="Account" asp-action="Register">Register</a></p>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <footer class="bg-dark text-center text-white fixed-bottom">
+        <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+            © 2020 Copyright:
+            <a class="text-white" href="#">Movie</a>
+        </div>
+    </footer>
+    <partial name="_ScriptPartial" />
+</body>
+</html>

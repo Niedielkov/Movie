@@ -1,0 +1,11 @@
+﻿@using Microsoft.AspNetCore.Identity;
+@inject Microsoft.AspNetCore.Identity.SignInManager<IdentityUser> _signInManager
+
+@if (_signInManager.IsSignedIn(User))
+{
+    <a class="btn btn-outline-info mt-3" data-mdb-ripple-color="dark" asp-controller="Films" asp-action="FilmsPage" asp-route-category="@null">Films</a>
+}
+else
+{
+    <a class="btn btn-outline-info mt-3" data-mdb-ripple-color="dark" asp-controller="Account" asp-action="Login">Login</a>
+}
