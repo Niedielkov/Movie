@@ -1,0 +1,67 @@
+﻿@model CategoryFilmModel
+
+@{
+    ViewData["Title"] = "Films";
+    var previousDisabled = !Model.FilmModels.PreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.FilmModels.NextPage ? "disabled" : "";
+}
+
+<div class="container-fluid mt-3">
+    <div class="row">
+        <div class="col-md-2 mb-4 text-center">
+            <ul class="list-group">
+                <li class="list-group-item border-dark"><a class="text-dark" asp-controller="Films" asp-action="FilmsPage">All films</a></li>
+                @foreach (var category in Model.CategoryModels)
+                {
+                    <li class="list-group-item border-dark"><a class="text-dark" asp-controller="Films" asp-action="FilmsPage" asp-route-category="@category.Name">@category.Name</a></li>
+                }
+            </ul>
+        </div>
+        <div class="col-md-10">
+            <div class="row mb-4">
+                <div class="col-md-8 mt-2">
+                    <partial name="_AdminActionsPartial" />
+                </div>
+                <div class="col-md-4 mt-2 text-right">
+                    <form asp-controller="Films" asp-action="FilmsPage">
+                        <span class="btn-group">
+                            <input type="text" class="form-control rounded" placeholder="Search" name="search" />
+                            <input type="submit" class="btn btn-outline-info" data-mdb-ripple-color="dark" value="Search" />
+                        </span>
+                    </form>
+                </div>
+            </div>
+            <div class="row">
+                @if (Model.FilmModels.Count < 1)
+                {
+                    <div class="col-md-12">
+                        <h2>Nothing was found for your request</h2>
+                    </div>
+                }
+                else
+                {
+                    @foreach (var film in Model.FilmModels)
+                    {
+                        <div class="col-md-4 mb-4">
+                            <div class="card">
+                                <img class="card-img-top" src="@film.CoverImageUrl" />
+                                <div class="card-body">
+                                    <h5 class="card-title">@film.Title</h5>
+                                    <p class="card-text">@film.Description</p>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <a class="btn btn-sm btn-outline-secondary" asp-controller="Films" asp-action="FilmDetails" asp-route-id="@film.Id">Watch film</a>
+                                        <p class="card-text"><small class="text-muted">@film.Category</small></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    <div class="col-md-12 text-center">
+                        <a asp-controller="Films" asp-action="FilmsPage" asp-route-search="@ViewBag.Search" asp-route-category="@ViewBag.Category" asp-route-pageIndex="@(Model.FilmModels.PageIndex - 1)" class="btn btn-dark @previousDisabled">Previous</a>
+                        <a asp-controller="Films" asp-action="FilmsPage" asp-route-search="@ViewBag.Search" asp-route-category="@ViewBag.Category" asp-route-pageIndex="@(Model.FilmModels.PageIndex + 1)" class="btn btn-dark @nextDisabled">Next</a>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

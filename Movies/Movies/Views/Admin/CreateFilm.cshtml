@@ -1,0 +1,69 @@
+﻿@model FilmModel
+@inject Movies.Repositories.ICountryRepository _countryRepository
+@inject Movies.Repositories.ICategoryRepository _categoryRepository
+
+@{
+    ViewData["Title"] = "Create film";
+}
+
+<section class="vh-100 gradient-custom">
+    <div class="container py-5 h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+                <div class="card bg-dark text-white" style="border-radius: 1rem;">
+                    <div class="card-body p-5 text-center">
+                        <div class="mt-md-4 pb-2">
+                            <h2 class="font-weight-bold mb-2">Create film</h2>
+                            <p class="text-white-50 mb-5">Please fill in all the fields!</p>
+                            <form method="post" enctype="multipart/form-data" asp-controller="Admin" asp-action="CreateFilm">
+                                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                <div class="form-group">
+                                    <input asp-for="Title" id="title" class="form-control form-control-lg mt-4" placeholder="Title" />
+                                    <span asp-validation-for="Title" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <input asp-for="Producer" id="producer" class="form-control form-control-lg mt-4" placeholder="Producer" />
+                                    <span asp-validation-for="Producer" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <textarea asp-for="Description" id="description" class="form-control form-control-lg mt-4" placeholder="Description"></textarea>
+                                    <span asp-validation-for="Description" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <input asp-for="Year" id="year" class="form-control form-control-lg mt-4" />
+                                    <span asp-validation-for="Year" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <select asp-for="CountryId" id="countryId" class="form-control form-control-lg mt-4" asp-items="(await _countryRepository.GetAllCountries()).Select(x => new SelectListItem() { Text = x.Name, Value = x.Id.ToString() })">
+                                        <option value="">Please select country</option>
+                                    </select>
+                                    <span asp-validation-for="CountryId" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <select asp-for="CategoryId" id="categoryId" class="form-control form-control-lg mt-4" asp-items="(await _categoryRepository.GetAllCategories()).Select(x => new SelectListItem() { Text = x.Name, Value = x.Id.ToString() })">
+                                        <option value="">Please select category</option>
+                                    </select>
+                                    <span asp-validation-for="CategoryId" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <input asp-for="FilmLink" id="filmLink" class="form-control form-control-lg mt-4" placeholder="Film link" />
+                                    <span asp-validation-for="FilmLink" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <input asp-for="CoverImage" id="coverImage" class="form-control form-control-lg mt-4" />
+                                    <span asp-validation-for="CoverImage" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <input type="submit" value="Create" class="btn btn-outline-light btn-lg px-5 mt-4" />
+                                </div>
+                                <div>
+                                    <p class="mb-0"><a class="text-white-50 font-weight-bold" asp-controller="Admin" asp-action="AdminPage">Back</a></p>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

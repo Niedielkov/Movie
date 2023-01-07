@@ -1,0 +1,117 @@
+﻿@model CategoryFilmModel
+@inject Movies.Repositories.ICategoryRepository _categoryRepository
+
+@{
+    ViewData["Title"] = "Admin actions";
+    var previousDisabled = !Model.FilmModels.PreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.FilmModels.NextPage ? "disabled" : "";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-9">
+            <a class="btn btn-outline-info mt-3" data-mdb-ripple-color="dark" asp-controller="Admin" asp-action="CreateFilm">Create new film</a>
+            <a class="btn btn-outline-info mt-3" data-mdb-ripple-color="dark" asp-controller="Admin" asp-action="AdminPage">All films</a>
+            <a class="btn btn-outline-info mt-3" data-mdb-ripple-color="dark" asp-controller="Films" asp-action="FilmsPage">Back to films page</a>
+        </div>
+        <div class="col-md-3">
+            <form class="mt-3 text-right" asp-controller="Admin" asp-action="AdminPage">
+                <span class="btn-group">
+                    <input type="text" class="form-control rounded" placeholder="Title" name="title" />
+                    <input type="submit" class="btn btn-outline-info" data-mdb-ripple-color="dark" value="Search" />
+                </span>
+            </form>
+            <form class="mt-2 text-right" asp-controller="Admin" asp-action="AdminPage">
+                <span class="btn-group">
+                    <select class="form-control rounded" asp-items="(await _categoryRepository.GetAllCategories()).Select(x => new SelectListItem() { Text = x.Name, Value = x.Name })" name="category">
+                        <option value="">Select category</option>
+                    </select>
+                    <input type="submit" class="btn btn-outline-info" data-mdb-ripple-color="dark" value="Search" />
+                </span>
+            </form>
+        </div>
+    </div>
+    <div class="row mt-4">
+        @if (Model.FilmModels.Count < 1)
+        {
+            <div class="col-md-12">
+                <h2>Nothing was found for your request</h2>
+            </div>
+        }
+        else
+        {
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            Title
+                        </th>
+                        <th>
+                            Producer
+                        </th>
+                        <th>
+                            Description
+                        </th>
+                        <th>
+                            Year
+                        </th>
+                        <th>
+                            Country
+                        </th>
+                        <th>
+                            Category
+                        </th>
+                        <th>
+                            Cover image
+                        </th>
+                        <th>
+                            Film link
+                        </th>
+                        <th>
+                            Operations
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var film in Model.FilmModels)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(filmItem => film.Title)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(filmItem => film.Producer)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(filmItem => film.Description)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(filmItem => film.Year.Year)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(filmItem => film.Country)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(filmItem => film.Category)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(filmItem => film.CoverImageUrl)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(filmItem => film.FilmLink)
+                            </td>
+                            <td>
+                                <a class="text-info mr-4" asp-controller="Admin" asp-action="EditFilm" asp-route-id="@film.Id">Edit</a>
+                                <a class="text-danger mr-4" asp-controller="Admin" asp-action="DeleteFilm" asp-route-id="@film.Id">Delete</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <div class="col-md-12 text-center">
+                <a asp-controller="Admin" asp-action="AdminPage" asp-route-title="@ViewBag.Search" asp-route-category="@ViewBag.Category" asp-route-pageIndex="@(Model.FilmModels.PageIndex - 1)" class="btn btn-dark @previousDisabled">Previous</a>
+                <a asp-controller="Admin" asp-action="AdminPage" asp-route-title="@ViewBag.Search" asp-route-category="@ViewBag.Category" asp-route-pageIndex="@(Model.FilmModels.PageIndex + 1)" class="btn btn-dark @nextDisabled">Next</a>
+            </div>
+        }
+    </div>
+</div>

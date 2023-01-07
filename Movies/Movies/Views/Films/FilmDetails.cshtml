@@ -1,0 +1,103 @@
+﻿@model FilmDetailsSimilarModel
+
+@{
+    ViewData["Title"] = "Film details";
+}
+
+<div class="container mt-3">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="embed-responsive embed-responsive-16by9">
+                <iframe class="embed-responsive-item" src="@Model.FilmModel.FilmLink" allowfullscreen></iframe>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="row">
+                <div class="col-md-12">
+                    <h1 class="text-black-50">@Model.FilmModel.Title</h1>
+                </div>
+            </div>
+            <hr />
+            <div class="row">
+                <div class="col-md-12">
+                    <p>Producer: <span class="text-info">@Model.FilmModel.Producer</span></p>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <p>Description: <span class="text-info">@Model.FilmModel.Description</span></p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <p>Year: <span class="text-info">@Model.FilmModel.Year.Year</span></p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <p>Category: <span class="text-info">@Model.FilmModel.Category</span></p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <p>Country: <span class="text-info">@Model.FilmModel.Country</span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr />
+    <div class="row">
+        <div class="col-md-12">
+           <h2>You would like also</h2>
+        </div>
+        <div class="col-md-12">
+            <div class="row">
+                @if (Model.FilmModels.Count > 6)
+                {
+                    for (int i = 0; i < 6; i++)
+                    {
+                        <div class="col-md-4 mt-2 mb-4">
+                            <div class="card">
+                                <img class="card-img-top" src="@Model.FilmModels[i].CoverImageUrl" />
+                                <div class="card-body">
+                                    <h5 class="card-title">@Model.FilmModels[i].Title</h5>
+                                    <p class="card-text">@Model.FilmModels[i].Description</p>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <a class="btn btn-sm btn-outline-secondary" asp-controller="Films" asp-action="FilmDetails" asp-route-id="@Model.FilmModels[i].Id">Watch film</a>
+                                        <p class="card-text"><small class="text-muted">@Model.FilmModels[i].Category</small></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
+                else
+                {
+                    foreach (var film in Model.FilmModels)
+                    {
+                        <div class="col-md-4 mt-2 mb-4">
+                            <div class="card">
+                                <img class="card-img-top" src="@film.CoverImageUrl" />
+                                <div class="card-body">
+                                    <h5 class="card-title">@film.Title</h5>
+                                    <p class="card-text">@film.Description</p>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <a class="btn btn-sm btn-outline-secondary" asp-controller="Films" asp-action="FilmDetails" asp-route-id="@film.Id">Watch film</a>
+                                        <p class="card-text"><small class="text-muted">@film.Category</small></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+    </div>
+    <hr />
+    <div class="row">
+        <div class="col-md-12 text-center">
+            <a class="btn btn-outline-info mt-3" data-mdb-ripple-color="dark" asp-controller="Films" asp-action="FilmsPage">Back to films page</a>
+        </div>
+    </div>
+</div>
